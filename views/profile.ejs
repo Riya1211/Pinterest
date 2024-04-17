@@ -1,0 +1,41 @@
+<%include ./partials/header.ejs %>
+    <div class="profile w-full min-h-screen bg-zinc-800 text-white pt-1">
+        <form id="uploadForm" hidden action="/fileUpload" method="post" enctype="multipart/form-data">
+            <input type="file" name="image">
+        </form>
+        <div class="profDetails flex flex-col items-center mt-20">
+            <div class="relative">
+                <span id="uploadIcon" class="w-8 h-8 absolute bottom-0 right-0 rounded-full flex items-center justify-center bg-zinc-200 cursor-pointer">
+                    <i class="text-zinc-800 ri-pencil-fill"></i>
+                </span>
+                <div class="w-32 h-32 bg-zinc-200 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%= user.profileImage%>" alt="" srcset="">
+                </div>
+            </div>
+            <h1 class="text-2xl mt-5 font-semibold"><%= user.name%></h1>
+            <h1 class="text-md">@<%=user.username%></h1>
+            <a href="/edit" class="cursor-pointer px-7 py-2 mt-5 bg-zinc-700 rounded-full font-semibold text-xs">Edit</a>
+            <a href="/add" class="cursor-pointer px-10 py-2 rounded-lg bg-red-700 text-xs font-semibold mt-10">Add New Post</a>
+        </div>
+        <div class="cards flex flex-wrap gap-10 px-10 mt-10">
+            <div class="card">
+                <div class="w-52 h-40 bg-zinc-200 rounded-lg overflow-hidden">
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%=user?.posts[0]?.image %>" alt="" srcset="">
+                </div>
+                <!-- Inline Block will work on margin without that it did not work -->
+                <a href="/show/posts" class="inline-block text-xl font-semibold mt-3 cursor-pointer">Your Uploaded Pins</a> 
+                <h5 class="text-sm font-medium opacity-60"><%= user.posts.length %> Pins</h5>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('#uploadIcon').addEventListener("click", function () {
+            document.querySelector('#uploadForm input').click();
+        })
+        // Check file uploaded or not
+        document.querySelector('#uploadForm input').addEventListener("change", function(){
+            document.querySelector('#uploadForm').submit();
+        })
+    </script>
+<%include ./partials/footer.ejs %>
